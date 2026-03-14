@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GRACODEV — Free Digital Skills Training, Abia State</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* ===================== RESET & ROOT ===================== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0a0a0a;
+    --white:   #f5f5f0;
+    --green:   #39e07b;
+    --green-d: #22c55e;
+    --green-dark: #16a34a;
+    --gray:    #1a1a1a;
+    --gray-2:  #2a2a2a;
+    --gray-lt: #888;
+    --border:  rgba(255,255,255,0.08);
+    --font-head: 'Bebas Neue', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --max: 1200px;
+    --rad: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--green); color: var(--black); }
+
+  /* ===================== SCROLLBAR ===================== */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+
+  /* ===================== UTILITY ===================== */
+  .container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .green { color: var(--green); }
+  .tag {
+    display: inline-block;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    letter-spacing: 1px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===================== NAV ===================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    padding: 0 24px;
+    transition: background 0.3s, backdrop-filter 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--green); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray-lt);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--green);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 22px;
+    border-radius: 100px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: #fff; transform: scale(1.03); }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 998;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-head);
+    font-size: 2.5rem;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--green); }
+  .mobile-close {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .nav-cta { display: none !important; }
+    .hamburger { display: flex !important; }
+  }
+
+  /* Hamburger open animation */
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ===================== HERO ===================== */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 0 80px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 20%, rgba(57,224,123,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(57,224,123,0.04) 0%, transparent 60%);
+  }
+  .hero-grid-line {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(57,224,123,0.1);
+    border: 1px solid rgba(57,224,123,0.3);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.5s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .hero-headline {
+    font-family: var(--font-head);
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+  .hero-headline .outline {
+    -webkit-text-stroke: 2px var(--white);
+    color: transparent;
+  }
+  .hero-headline .accent { color: var(--green); }
+  .hero-sub {
+    max-width: 560px;
+    font-size: 1.05rem;
+    color: var(--gray-lt);
+    line-height: 1.75;
+    margin-bottom: 40px;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+  .hero-sub strong { color: var(--white); }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.25s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(57,224,123,0.3);
+  }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .btn-outline:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 2.4rem;
+    color: var(--green);
+    letter-spacing: 1px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--gray-lt);
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .hero-image-col {
+    position: relative;
+    animation: fadeLeft 1s 0.2s ease both;
+  }
+  .hero-image-box {
+    background: var(--gray);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4/5;
+    max-width: 380px;
+    margin-left: auto;
+  }
+  .hero-image-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(57,224,123,0.15) 0%, transparent 60%);
+    z-index: 1;
+  }
+  .hero-image-inner {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    color: var(--gray-lt);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        var(--gray) 0px, var(--gray) 1px,
+        var(--gray-2) 1px, var(--gray-2) 40px
+      );
+  }
+  .floating-card {
+    position: absolute;
+    background: rgba(10,10,10,0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: var(--rad);
+    padding: 14px 18px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .floating-card.card-1 {
+    bottom: 30px; left: -30px;
+    font-size: 13px;
+    z-index: 2;
+  }
+  .floating-card.card-2 {
+    top: 30px; right: -20px;
+    font-size: 13px;
+    z-index: 2;
+    animation-delay: -2s;
+  }
+  .fc-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--gray-lt);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .fc-value {
+    font-weight: 700;
+    color: var(--white);
+    font-size: 1rem;
+  }
+  .fc-green { color: var(--green); font-size: 1.2rem; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* HERO LAYOUT */
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero-layout { grid-template-columns: 1fr; }
+    .hero-image-col { display: none; }
+  }
+
+  /* ===================== PARTNERS ===================== */
+  #partners {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--gray);
+  }
+  .partners-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .partner-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray-lt);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .partner-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--border);
+  }
+  .partner-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .partner-chip .icon {
+    width: 28px; height: 28px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 900;
+  }
+
+  /* ===================== ABOUT ===================== */
+  #about {
+    padding: 120px 0;
+    background: var(--white);
+    color: var(--black);
+  }
+  #about .tag { border-color: var(--black); color: var(--black); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .about-headline {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    letter-spacing: 1px;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    color: var(--black);
+  }
+  .about-headline em {
+    font-style: normal;
+    -webkit-text-stroke: 2px var(--black);
+    color: transparent;
+  }
+  .about-body {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+  .about-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .highlight-box {
+    background: var(--black);
+    color: var(--white);
+    border-radius: var(--rad);
+    padding: 24px;
+  }
+  .highlight-box.green-box {
+    background: var(--green);
+    color: var(--black);
+  }
+  .highlight-num {
+    font-family: var(--font-head);
+    font-size: 2.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .green-box .highlight-num { color: var(--black); }
+  .highlight-desc { font-size: 13px; opacity: 0.8; line-height: 1.5; }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-main {
+    background: var(--gray);
+    border-radius: 24px;
+    aspect-ratio: 3/4;
+    max-height: 500px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    color: #555;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    background-image: repeating-linear-gradient(
+      135deg,
+      #1a1a1a 0px, #1a1a1a 1px,
+      #222 1px, #222 40px
+    );
+  }
+  .about-badge {
+    position: absolute;
+    bottom: 24px; left: -24px;
+    background: var(--green);
+    color: var(--black);
+    border-radius: var(--rad);
+    padding: 20px 24px;
+    font-weight: 700;
+    font-size: 13px;
+    max-width: 180px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+  .about-badge .big { font-family: var(--font-head); font-size: 2rem; display: block; line-height: 1; margin-bottom: 4px; }
+
+  /* ===================== COURSES ===================== */
+  #courses {
+    padding: 120px 0;
+    background: var(--black);
+  }
+  .courses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .courses-sub { color: var(--gray-lt); max-width: 400px; line-height: 1.7; font-size: 15px; }
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .courses-grid { grid-template-columns: 1fr; }
+  }
+  .course-card {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+    background: var(--gray);
+  }
+  .course-card:hover {
+    border-color: var(--green);
+    transform: translateY(-6px);
+  }
+  .course-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .course-card:hover::before { transform: scaleX(1); }
+  .course-icon {
+    width: 56px; height: 56px;
+    background: rgba(57,224,123,0.1);
+    border: 1px solid rgba(57,224,123,0.2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+  }
+  .course-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .course-title {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .course-desc {
+    color: var(--gray-lt);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .course-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .skill-pill {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--gray-lt);
+    transition: all 0.2s;
+  }
+  .course-card:hover .skill-pill {
+    border-color: rgba(57,224,123,0.3);
+    color: var(--green);
+  }
+  .course-card.featured {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--black);
+  }
+  .course-card.featured .course-num,
+  .course-card.featured .course-title,
+  .course-card.featured .course-desc { color: var(--black); }
+  .course-card.featured .course-desc { opacity: 0.75; }
+  .course-card.featured .course-icon {
+    background: rgba(0,0,0,0.15);
+    border-color: rgba(0,0,0,0.1);
+  }
+  .course-card.featured .skill-pill {
+    border-color: rgba(0,0,0,0.2);
+    color: var(--black);
+  }
+  .course-card.featured:hover { border-color: var(--green-dark); }
+  .free-badge {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--black);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+  .course-card.featured .free-badge { background: var(--black); color: var(--green); }
+
+  /* ===================== PROCESS ===================== */
+  #process {
+    padding: 120px 0;
+    background: var(--white);
+    color: var(--black);
+    overflow: hidden;
+  }
+  #process .tag { border-color: var(--black); color: var(--black); }
+  .process-header { text-align: center; margin-bottom: 80px; }
+  .process-headline {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    letter-spacing: 1px;
+    color: var(--black);
+    max-width: 600px;
+    margin: 0 auto 16px;
+  }
+  .process-sub { color: #666; max-width: 440px; margin: 0 auto; font-size: 15px; line-height: 1.7; }
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  @media (max-width: 900px) {
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 0; }
+  }
+  @media (max-width: 500px) {
+    .process-steps { grid-template-columns: 1fr; }
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 12.5%; right: 12.5%;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--green) 0, var(--green) 8px, transparent 8px, transparent 16px);
+  }
+  @media (max-width: 900px) { .process-steps::before { display: none; } }
+  .step-card {
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .step-num-wrap {
+    width: 72px; height: 72px;
+    margin: 0 auto 28px;
+    position: relative;
+  }
+  .step-circle {
+    width: 72px; height: 72px;
+    background: var(--black);
+    border: 3px solid var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    color: var(--green);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s;
+  }
+  .step-card:hover .step-circle {
+    background: var(--green);
+    color: var(--black);
+  }
+  .step-title {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    color: var(--black);
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.7;
+  }
+
+  /* ===================== BENEFITS ===================== */
+  #benefits {
+    padding: 120px 0;
+    background: var(--black);
+  }
+  .benefits-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .benefits-layout { grid-template-columns: 1fr; gap: 48px; }
+  }
+  .benefits-headline {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .benefits-body { color: var(--gray-lt); font-size: 15px; line-height: 1.8; margin-bottom: 32px; }
+  .benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--rad);
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .benefit-item:hover {
+    border-color: var(--green);
+    background: rgba(57,224,123,0.04);
+  }
+  .benefit-icon {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: rgba(57,224,123,0.1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    color: var(--green);
+    margin-top: 2px;
+  }
+  .benefit-text-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .benefit-text-desc { font-size: 13px; color: var(--gray-lt); line-height: 1.6; }
+  /* right side grid — single column */
+  .benefits-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .bv-box {
+    border: 1px solid var(--border);
+    border-radius: var(--rad);
+    padding: 24px 28px;
+    background: var(--gray);
+    transition: border-color 0.25s, transform 0.25s;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .bv-box:hover { border-color: var(--green); transform: translateX(4px); }
+  .bv-box:first-child { background: var(--green); color: var(--black); border-color: var(--green); }
+  .bv-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bv-box:not(:first-child) .bv-icon {
+    background: rgba(57,224,123,0.1);
+  }
+  .bv-content {}
+  .bv-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .bv-desc { font-size: 13px; opacity: 0.75; line-height: 1.6; }
+  .bv-box:first-child .bv-title,
+  .bv-box:first-child .bv-desc { color: var(--black); }
+
+  /* ===================== FORM ===================== */
+  #register {
+    padding: 120px 0;
+    background: var(--white);
+    color: var(--black);
+  }
+  #register .tag { border-color: var(--black); color: var(--black); }
+  .form-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .form-layout { grid-template-columns: 1fr; gap: 48px; }
+  }
+  .form-info-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    line-height: 1.05;
+  }
+  .form-info-body { color: #555; font-size: 14px; line-height: 1.8; margin-bottom: 32px; }
+  .form-checklist { display: flex; flex-direction: column; gap: 12px; }
+  .fci {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: #333; font-weight: 500;
+  }
+  .fci::before {
+    content: '✓';
+    width: 24px; height: 24px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    color: var(--black);
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .form-card {
+    background: var(--black);
+    border-radius: 24px;
+    padding: 40px;
+    color: var(--white);
+  }
+  @media (max-width: 600px) {
+    .form-card { padding: 24px 20px; }
+  }
+  .form-section-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    margin-top: 32px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-section-title:first-child { margin-top: 0; }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+  .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 768px) { .form-row.three { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 500px) { .form-row.three { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+  .form-group label {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray-lt);
+  }
+  .form-group label span.req { color: var(--green); }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--gray);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 14px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    outline: none;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(57,224,123,0.1);
+  }
+  .form-group select option { background: var(--gray); color: var(--white); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--white);
+  }
+  .checkbox-label input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--green);
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .radio-group { display: flex; flex-direction: column; gap: 10px; }
+  .radio-label {
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; font-size: 14px; color: var(--white);
+  }
+  .radio-label input[type="radio"] {
+    width: 16px; height: 16px;
+    accent-color: var(--green);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .slider-wrap { padding: 8px 0; }
+  .ict-slider {
+    width: 100%;
+    accent-color: var(--green);
+    cursor: pointer;
+  }
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray-lt);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+  }
+  .slider-val {
+    font-family: var(--font-head);
+    font-size: 2rem;
+    color: var(--green);
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    position: relative;
+  }
+  .upload-zone:hover { border-color: var(--green); }
+  .upload-zone input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%; height: 100%;
+  }
+  .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; color: var(--gray-lt); }
+  .upload-text strong { color: var(--green); }
+  .upload-filename { font-size: 12px; color: var(--green); margin-top: 6px; display: none; font-family: var(--font-mono); }
+  .form-submit-wrap { margin-top: 32px; }
+  .form-submit {
+    width: 100%;
+    background: var(--green);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+  }
+  .form-submit:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(57,224,123,0.25);
+  }
+  .form-note { font-size: 12px; color: var(--gray-lt); text-align: center; margin-top: 12px; line-height: 1.6; }
+  .form-note a { color: var(--green); }
+  .challenged-extra {
+    display: none;
+    margin-top: 4px;
+  }
+  .challenged-extra.show { display: flex; }
+
+  /* ===================== CTA BANNER ===================== */
+  #cta {
+    padding: 100px 0;
+    background: var(--green);
+    color: var(--black);
+    text-align: center;
+  }
+  .cta-headline {
+    font-family: var(--font-head);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .cta-sub { font-size: 1.05rem; opacity: 0.75; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-dark {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--black);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  .btn-dark:hover { background: var(--gray); transform: translateY(-2px); }
+  .btn-dark-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    color: var(--black);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    border: 2px solid rgba(0,0,0,0.25);
+    transition: all 0.25s;
+  }
+  .btn-dark-outline:hover { border-color: var(--black); }
+
+  /* ===================== FOOTER ===================== */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 60px 0 32px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 500px) {
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  .footer-brand .logo { display: block; margin-bottom: 16px; }
+  .footer-desc { color: var(--gray-lt); font-size: 13px; line-height: 1.7; max-width: 260px; }
+  .footer-email {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--green);
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-decoration: none;
+    margin-top: 16px;
+    transition: opacity 0.2s;
+  }
+  .footer-email:hover { opacity: 0.75; }
+  .footer-col-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-lt);
+    margin-bottom: 20px;
+  }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--green); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-copy { font-size: 12px; color: var(--gray-lt); font-family: var(--font-mono); }
+  .footer-copy span { color: var(--green); }
+  .footer-state-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--gray-lt); font-family: var(--font-mono);
+    letter-spacing: 1px;
+  }
+  .state-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+
+  /* ===================== MODAL ===================== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--gray);
+    border: 1px solid var(--green);
+    border-radius: 24px;
+    padding: 48px 40px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: fadeUp 0.4s ease;
+  }
+  .modal-icon { font-size: 3rem; margin-bottom: 16px; }
+  .modal-title {
+    font-family: var(--font-head);
+    font-size: 2.4rem;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .modal-body { color: var(--gray-lt); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    color: var(--gray-lt);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* ===================== BACK TO TOP ===================== */
+  .back-to-top {
+    position: fixed;
+    bottom: 28px; right: 24px;
+    width: 44px; height: 44px;
+    background: var(--green);
+    color: var(--black);
+    border: none;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(57,224,123,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 998;
+    text-decoration: none;
+  }
+  .back-to-top.visible { opacity: 1; pointer-events: auto; }
+  .back-to-top:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">GRACO<span>DEV</span>.</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#process">How it Works</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+    </ul>
+    <a href="#register" class="nav-cta">Apply Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#courses" onclick="closeMobileMenu()">Courses</a>
+  <a href="#process" onclick="closeMobileMenu()">How it Works</a>
+  <a href="#benefits" onclick="closeMobileMenu()">Benefits</a>
+  <a href="#register" onclick="closeMobileMenu()" style="color:var(--green)">Apply Now</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-line"></div>
+  <div class="container">
+    <div class="hero-layout">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Free · 100% — Abia State, Nigeria
+        </div>
+        <h1 class="hero-headline">
+          FREE<br>
+          <span class="outline">DIGITAL</span><br>
+          <span class="accent">SKILLS</span><br>
+          TRAINING
+        </h1>
+        <p class="hero-sub">
+          <strong>GRACODEV</strong>, in partnership with <strong>Prevailing Computers Limited</strong>, is equipping Nigerians in Abia State with free, industry-grade certifications in Graphics Design, Web Development & Cybersecurity.
+        </p>
+        <div class="hero-actions">
+          <a href="#register" class="btn-primary">Apply Now &rarr;</a>
+          <a href="#courses" class="btn-outline">Explore Courses</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Courses Offered</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Free of Charge</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">🏅</div>
+            <div class="stat-label">Certified Program</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image-col">
+        <div class="hero-image-box">
+          <img src="https://i.pinimg.com/736x/a7/c0/28/a7c028b62aae44ba9da1f025b7781217.jpg" alt="Digital Skills Training" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          <div class="floating-card card-1">
+            <div class="fc-label">Program Type</div>
+            <div class="fc-value">Free Digital Training</div>
+          </div>
+          <div class="floating-card card-2">
+            <div class="fc-label">Certification</div>
+            <div class="fc-value fc-green">✓ Included</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners">
+  <div class="container">
+    <div class="partners-inner">
+      <span class="partner-label">In Partnership With</span>
+      <div class="partner-divider"></div>
+      <div class="partner-chip">
+        <span class="icon">G</span>
+        Grassroots Community Development Initiative
+      </div>
+      <span style="color:var(--gray-lt); font-size:1.2rem; padding:0 4px;">×</span>
+      <div class="partner-chip">
+        <span class="icon">P</span>
+        Prevailing Computers Limited
+      </div>
+      <div class="partner-divider"></div>
+      <div class="partner-chip" style="border-color:rgba(57,224,123,0.3); color:var(--green);">
+        🇳🇬 Abia State, Nigeria
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="tag">About the Program</span>
+        <h2 class="about-headline">Your Path to<br><em>Financial Freedom</em><br>Starts Here.</h2>
+        <p class="about-body">
+          We're not just trainers — we're changemakers. The Grassroots Community Development Initiative (GRACODEV), in partnership with Prevailing Computers Limited, is facilitating free digital certificates to all Nigerians in Abia State who hope to foster change in the trajectory for financial freedom and enhanced productivity.
+          <br><br>
+          Join us on this journey of growth — and you will be better for it.
+        </p>
+        <div class="about-highlights">
+          <div class="highlight-box green-box">
+            <div class="highlight-num">FREE</div>
+            <div class="highlight-desc">No fees, no hidden charges — fully sponsored training</div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-num">3</div>
+            <div class="highlight-desc" style="color:var(--gray-lt)">In-demand digital courses</div>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-num">🏅</div>
+            <div class="highlight-desc" style="color:var(--gray-lt)">Industry-recognized certificate upon completion</div>
+          </div>
+          <div class="highlight-box" style="background:var(--gray-2)">
+            <div class="highlight-num" style="font-size:1.6rem">Open to All</div>
+            <div class="highlight-desc" style="color:var(--gray-lt)">All Nigerians resident in Abia State</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual reveal" style="transition-delay:0.15s">
+        <div class="about-img-main" style="background:none; display:block;">
+          <img src="https://i.pinimg.com/736x/a7/c0/28/a7c028b62aae44ba9da1f025b7781217.jpg" alt="Digital Skills Training" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:24px;" />
+        </div>
+        <div class="about-badge">
+          <span class="big">100%</span>
+          Fully Funded Program
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="container">
+    <div class="courses-header reveal">
+      <div>
+        <span class="tag">What We Teach</span>
+        <h2 class="section-title">Choose Your<br>Digital Path</h2>
+      </div>
+      <p class="courses-sub">Three high-demand courses designed to give you real, marketable skills — all completely free for Abia State residents.</p>
+    </div>
+    <div class="courses-grid">
+      <div class="course-card reveal" style="transition-delay:0.05s">
+        <span class="free-badge">FREE</span>
+        <div class="course-icon">🎨</div>
+        <div class="course-num">Course 01</div>
+        <h3 class="course-title">Graphics Design</h3>
+        <p class="course-desc">Master visual communication from brand identity to marketing materials. Learn industry tools and design principles that companies hire for.</p>
+        <div class="course-skills">
+          <span class="skill-pill">Canva</span>
+          <span class="skill-pill">Adobe Photoshop</span>
+          <span class="skill-pill">Illustrator</span>
+          <span class="skill-pill">Brand Identity</span>
+          <span class="skill-pill">Typography</span>
+        </div>
+      </div>
+      <div class="course-card featured reveal" style="transition-delay:0.1s">
+        <span class="free-badge">FREE</span>
+        <div class="course-icon" style="background:rgba(0,0,0,0.2); border-color:rgba(0,0,0,0.15)">💻</div>
+        <div class="course-num">Course 02</div>
+        <h3 class="course-title">Web Development</h3>
+        <p class="course-desc">Go from zero to building fully functional websites. Learn how the modern web works and launch real projects into the world.</p>
+        <div class="course-skills">
+          <span class="skill-pill">HTML & CSS</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">Responsive Design</span>
+          <span class="skill-pill">Hosting & Deployment</span>
+        </div>
+      </div>
+      <div class="course-card reveal" style="transition-delay:0.15s">
+        <span class="free-badge">FREE</span>
+        <div class="course-icon">🛡️</div>
+        <div class="course-num">Course 03</div>
+        <h3 class="course-title">Cyber Security</h3>
+        <p class="course-desc">Protect systems, networks, and data in the digital age. One of the fastest-growing fields globally, with massive demand in Nigeria.</p>
+        <div class="course-skills">
+          <span class="skill-pill">Network Security</span>
+          <span class="skill-pill">Ethical Hacking</span>
+          <span class="skill-pill">Risk Assessment</span>
+          <span class="skill-pill">Digital Safety</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="process-header reveal">
+      <span class="tag">How it Works</span>
+      <h2 class="process-headline">Your Journey from Application to Certification</h2>
+      <p class="process-sub">A simple 4-step process designed to get you trained and certified as quickly as possible.</p>
+    </div>
+    <div class="process-steps">
+      <div class="step-card reveal" style="transition-delay:0.05s">
+        <div class="step-num-wrap">
+          <div class="step-circle">01</div>
+        </div>
+        <h3 class="step-title">Apply</h3>
+        <p class="step-desc">Fill in your registration form and select your preferred course. Applications are open to all eligible Nigerians in Abia State.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:0.1s">
+        <div class="step-num-wrap">
+          <div class="step-circle">02</div>
+        </div>
+        <h3 class="step-title">Qualify</h3>
+        <p class="step-desc">Your application is reviewed and you receive your confirmation. Documents are verified to ensure eligibility for the program.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:0.15s">
+        <div class="step-num-wrap">
+          <div class="step-circle">03</div>
+        </div>
+        <h3 class="step-title">Train</h3>
+        <p class="step-desc">Attend structured training sessions led by experienced instructors. Build practical, portfolio-ready skills in your chosen field.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:0.2s">
+        <div class="step-num-wrap">
+          <div class="step-circle">04</div>
+        </div>
+        <h3 class="step-title">Certify</h3>
+        <p class="step-desc">Graduate with an industry-recognized digital certificate — your proof of competence and ticket to new career opportunities.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits">
+  <div class="container">
+    <div class="benefits-layout">
+      <div class="reveal">
+        <span class="tag">Why Join Us</span>
+        <h2 class="benefits-headline">More Than Just<br>A <span class="green">Certificate</span></h2>
+        <p class="benefits-body">This program is designed to transform lives, not just hand out papers. You leave with real skills, real confidence, and real opportunities.</p>
+        <div class="benefits-list">
+          <div class="benefit-item">
+            <div class="benefit-icon">🎓</div>
+            <div>
+              <div class="benefit-text-title">Fully Accredited Certificate</div>
+              <div class="benefit-text-desc">Receive an industry-recognized certificate upon successful completion of your course.</div>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">💰</div>
+            <div>
+              <div class="benefit-text-title">Zero Cost, Maximum Value</div>
+              <div class="benefit-text-desc">Completely free — sponsored by GRACODEV and Prevailing Computers Limited.</div>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🌍</div>
+            <div>
+              <div class="benefit-text-title">Global Career Opportunities</div>
+              <div class="benefit-text-desc">Digital skills are in demand globally. Work locally, remotely, or internationally.</div>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🤝</div>
+            <div>
+              <div class="benefit-text-title">Community & Mentorship</div>
+              <div class="benefit-text-desc">Join a growing network of digital professionals across Abia State and Nigeria.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="benefits-visual reveal" style="transition-delay:0.15s">
+        <div class="bv-box">
+          <div class="bv-icon">🚀</div>
+          <div class="bv-content">
+            <div class="bv-title">Designed for Growth</div>
+            <div class="bv-desc">Our curriculum is built around what employers and clients actually need — practical, project-based, and immediately applicable.</div>
+          </div>
+        </div>
+        <div class="bv-box">
+          <div class="bv-icon" style="font-size:1.4rem">📈</div>
+          <div class="bv-content">
+            <div class="bv-title" style="color:var(--white)">Financial Freedom</div>
+            <div class="bv-desc">Freelance, get employed, or start your own business. Digital skills open doors that traditional education often cannot.</div>
+          </div>
+        </div>
+        <div class="bv-box">
+          <div class="bv-icon" style="font-size:1.4rem">🛡️</div>
+          <div class="bv-content">
+            <div class="bv-title" style="color:var(--white)">Inclusive Program</div>
+            <div class="bv-desc">Open to all Nigerians in Abia State — students, employed, unemployed, self-employed, and differently-abled individuals welcome.</div>
+          </div>
+        </div>
+        <div class="bv-box">
+          <div class="bv-icon" style="font-size:1.4rem">📜</div>
+          <div class="bv-content">
+            <div class="bv-title" style="color:var(--white)">Certified & Verified</div>
+            <div class="bv-desc">Every graduate receives a certificate verifiable by employers, clients, and partner institutions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTRATION FORM -->
+<section id="register">
+  <div class="container">
+    <div class="form-layout">
+      <div class="reveal">
+        <span class="tag">Apply Now</span>
+        <h2 class="form-info-title">Start Your Digital Journey Today</h2>
+        <p class="form-info-body">
+          Fill in your details accurately below. All fields marked with <span style="color:var(--green-dark)">*</span> are required. Your NIN and Passport will be used solely for verification purposes.
+          <br><br>
+          After submission, you will be redirected to complete your application on our secure Google Form.
+        </p>
+        <div class="form-checklist">
+          <div class="fci">Open to all Nigerians in Abia State</div>
+          <div class="fci">Completely free — no charges</div>
+          <div class="fci">3 courses available to choose from</div>
+          <div class="fci">Certificate issued upon completion</div>
+          <div class="fci">Documents kept confidential</div>
+        </div>
+      </div>
+      <div class="form-card reveal" style="transition-delay:0.1s">
+        <form id="registrationForm" novalidate>
+
+          <!-- PERSONAL INFO -->
+          <div class="form-section-title">Personal Information</div>
+          <div class="form-row three">
+            <div class="form-group">
+              <label>First Name <span class="req">*</span></label>
+              <input type="text" name="firstName" placeholder="e.g. Emeka" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name <span class="req">*</span></label>
+              <input type="text" name="lastName" placeholder="e.g. Okafor" required />
+            </div>
+            <div class="form-group">
+              <label>Middle Name <span class="req">*</span></label>
+              <input type="text" name="middleName" placeholder="e.g. Chukwu" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date of Birth <span class="req">*</span></label>
+              <input type="date" name="dob" required />
+            </div>
+            <div class="form-group">
+              <label>Age <span class="req">*</span></label>
+              <input type="number" name="age" placeholder="e.g. 22" min="16" max="99" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Gender <span class="req">*</span></label>
+              <select name="gender" required>
+                <option value="" disabled selected>Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Marital Status <span class="req">*</span></label>
+              <select name="marital" required>
+                <option value="" disabled selected>Select status</option>
+                <option>Single</option>
+                <option>Married</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- LOCATION -->
+          <div class="form-section-title">Location & Contact</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>L.G.A of Origin <span class="req">*</span></label>
+              <select name="lga" required>
+                <option value="" disabled selected>Select LGA</option>
+                <option>Aba North</option><option>Aba South</option><option>Arochukwu</option>
+                <option>Bende</option><option>Ikwuano</option><option>Isiala Ngwa North</option>
+                <option>Isiala Ngwa South</option><option>Isuikwuato</option><option>Obi Ngwa</option>
+                <option>Ohafia</option><option>Osisioma</option><option>Smoba</option>
+                <option>Umuahia North</option><option>Umuahia South</option><option>Umu Nneochi</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Employment Status <span class="req">*</span></label>
+              <select name="employment" required>
+                <option value="" disabled selected>Select status</option>
+                <option>Student</option>
+                <option>Employed</option>
+                <option>Unemployed</option>
+                <option>Self-Employed</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Residential Address <span class="req">*</span></label>
+            <input type="text" name="address" placeholder="Your current address in Abia State" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number <span class="req">*</span></label>
+              <input type="tel" name="phone" placeholder="08066557744" required />
+            </div>
+            <div class="form-group">
+              <label>WhatsApp Number <span class="req">*</span></label>
+              <input type="tel" name="whatsapp" placeholder="08066557744" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </div>
+
+          <!-- IDENTIFICATION -->
+          <div class="form-section-title">Identification</div>
+          <div class="form-group">
+            <label>Candidate NIN <span class="req">*</span></label>
+            <input type="text" name="nin" placeholder="11-digit NIN number" maxlength="11" required />
+          </div>
+
+          <!-- ACADEMIC -->
+          <div class="form-section-title">Academic & Proficiency</div>
+          <div class="form-group">
+            <label>Educational Qualification <span class="req">*</span></label>
+            <select name="education" required>
+              <option value="" disabled selected>Select qualification</option>
+              <option>O'Level</option>
+              <option>NCE / ND</option>
+              <option>HND / BSc</option>
+              <option>Post Graduate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ICT Proficiency (1–10) <span class="req">*</span></label>
+            <div class="slider-wrap">
+              <div class="slider-val" id="sliderVal">5</div>
+              <input type="range" class="ict-slider" name="ict" min="1" max="10" value="5" id="ictSlider" />
+              <div class="slider-labels">
+                <span>Beginner</span>
+                <span>Expert</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- COURSES -->
+          <div class="form-section-title">Course Preference</div>
+          <div class="form-group">
+            <label>Choose Your Preferred Course(s) <span class="req">*</span></label>
+            <div class="checkbox-group" style="margin-top:8px">
+              <label class="checkbox-label">
+                <input type="checkbox" name="courses" value="Graphics Design" />
+                🎨 Graphics Design
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="courses" value="Web Development" />
+                💻 Web Development
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="courses" value="Cyber Security" />
+                🛡️ Cyber Security
+              </label>
+            </div>
+          </div>
+
+          <!-- DISABILITY -->
+          <div class="form-section-title">Additional Information</div>
+          <div class="form-group">
+            <label>Are you physically challenged? <span class="req">*</span></label>
+            <div class="radio-group" style="margin-top:8px">
+              <label class="radio-label">
+                <input type="radio" name="challenged" value="Yes" id="chalYes" />
+                Yes
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="challenged" value="No" id="chalNo" checked />
+                No
+              </label>
+            </div>
+          </div>
+          <div class="form-group challenged-extra" id="challengedExtra">
+            <label>Please specify the type of challenge</label>
+            <input type="text" name="challengeType" placeholder="Describe your challenge" />
+          </div>
+
+          <!-- UPLOADS -->
+          <div class="form-section-title">Document Uploads</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Recent Passport Photo <span class="req">*</span></label>
+              <div class="upload-zone" id="passportZone">
+                <input type="file" name="passport" accept="image/*,.pdf" id="passportInput" />
+                <div class="upload-icon">📷</div>
+                <div class="upload-text"><strong>Click to upload</strong><br>Passport photo (max 10MB)</div>
+                <div class="upload-filename" id="passportName"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>NIN Document <span class="req">*</span></label>
+              <div class="upload-zone" id="ninDocZone">
+                <input type="file" name="ninDoc" accept="image/*,.pdf" id="ninDocInput" />
+                <div class="upload-icon">🪪</div>
+                <div class="upload-text"><strong>Click to upload</strong><br>NIN slip / card (max 10MB)</div>
+                <div class="upload-filename" id="ninDocName"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-submit-wrap">
+            <button type="submit" class="form-submit">Submit Application →</button>
+            <p class="form-note">
+              By submitting, you'll be redirected to our secure Google Form to finalize your application. Your data is kept confidential.<br>
+              Questions? <a href="mailto:gracodevideasproject@gmail.com" style="color:var(--green)">gracodevideasproject@gmail.com</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="reveal">
+      <h2 class="cta-headline">Ready to Transform<br>Your Future?</h2>
+      <p class="cta-sub">Join hundreds of Nigerians in Abia State taking control of their digital future — for free.</p>
+      <div class="cta-actions">
+        <a href="#register" class="btn-dark">Apply for Free →</a>
+        <a href="mailto:gracodevideasproject@gmail.com" class="btn-dark-outline">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">GRACO<span>DEV</span>.</a>
+        <p class="footer-desc">Grassroots Community Development Initiative — empowering Nigerians in Abia State with free, certified digital skills training.</p>
+        <a href="mailto:gracodevideasproject@gmail.com" class="footer-email">✉ gracodevideasproject@gmail.com</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Courses</div>
+        <div class="footer-links">
+          <a href="#courses">Graphics Design</a>
+          <a href="#courses">Web Development</a>
+          <a href="#courses">Cyber Security</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Program</div>
+        <div class="footer-links">
+          <a href="#about">About</a>
+          <a href="#process">How it Works</a>
+          <a href="#benefits">Benefits</a>
+          <a href="#register">Apply Now</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Partners</div>
+        <div class="footer-links">
+          <a href="#">GRACODEV</a>
+          <a href="#">Prevailing Computers Ltd</a>
+          <a href="mailto:gracodevideasproject@gmail.com">Contact Us</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 <span>GRACODEV</span>. Free Digital Skills Training Initiative.</div>
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div class="footer-state-badge">
+          <span class="state-dot"></span>
+          Abia State, Nigeria 🇳🇬
+        </div>
+        <div class="footer-copy" style="border-left:1px solid var(--border);padding-left:20px;">
+          Built with ❤️ by <a href="https://digiking.com.ng" target="_blank" style="color:var(--green);text-decoration:none;font-weight:700;">DigiKing</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<a href="#hero" class="back-to-top" id="backToTop">↑</a>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-icon">🎉</div>
+    <div class="modal-title">Almost There!</div>
+    <p class="modal-body">
+      Thank you for filling in your details. You're being redirected to our secure Google Form to finalize your application.<br><br>
+      If the redirect doesn't happen automatically, <a href="https://forms.gle/REPLACE_WITH_YOUR_FORM_LINK" target="_blank" style="color:var(--green)">click here</a>.
+    </p>
+    <a href="https://forms.gle/REPLACE_WITH_YOUR_FORM_LINK" target="_blank" class="btn-primary" style="width:100%; justify-content:center; border-radius:12px; font-size:14px;">
+      Open Google Form →
+    </a>
+  </div>
+</div>
+
+<script>
+  /* ---- NAV SCROLL ---- */
+  const navbar = document.getElementById('navbar');
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+      backToTop.classList.add('visible');
+    } else {
+      navbar.classList.remove('scrolled');
+      backToTop.classList.remove('visible');
+    }
+  });
+
+  /* ---- MOBILE MENU ---- */
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.add('open');
+  });
+  document.getElementById('mobileClose').addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  /* ---- SCROLL REVEAL ---- */
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => io.observe(r));
+
+  /* ---- ICT SLIDER ---- */
+  const slider = document.getElementById('ictSlider');
+  const sliderVal = document.getElementById('sliderVal');
+  slider.addEventListener('input', () => { sliderVal.textContent = slider.value; });
+
+  /* ---- PHYSICALLY CHALLENGED TOGGLE ---- */
+  document.querySelectorAll('[name="challenged"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const extra = document.getElementById('challengedExtra');
+      extra.classList.toggle('show', r.value === 'Yes' && r.checked);
+    });
+  });
+
+  /* ---- FILE UPLOADS ---- */
+  function setupUpload(inputId, nameId) {
+    const input = document.getElementById(inputId);
+    const name = document.getElementById(nameId);
+    if (!input) return;
+    input.addEventListener('change', () => {
+      if (input.files[0]) {
+        name.textContent = '✓ ' + input.files[0].name;
+        name.style.display = 'block';
+      }
+    });
+  }
+  setupUpload('passportInput', 'passportName');
+  setupUpload('ninDocInput', 'ninDocName');
+
+  /* ---- AGE AUTO-FILL ---- */
+  document.querySelector('[name="dob"]').addEventListener('change', function() {
+    const dob = new Date(this.value);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    document.querySelector('[name="age"]').value = age;
+  });
+
+  /* ---- FORM SUBMIT ---- */
+  document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Basic validation
+    const required = this.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(f => {
+      if (!f.value.trim()) {
+        valid = false;
+        f.style.borderColor = '#ef4444';
+        f.addEventListener('input', () => { f.style.borderColor = ''; }, { once: true });
+      }
+    });
+    const courses = this.querySelectorAll('[name="courses"]:checked');
+    if (courses.length === 0) {
+      valid = false;
+      alert('Please select at least one course.');
+      return;
+    }
+    if (!valid) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    // Show modal and redirect
+    document.getElementById('successModal').classList.add('open');
+    setTimeout(() => {
+      window.open('https://forms.gle/REPLACE_WITH_YOUR_FORM_LINK', '_blank');
+    }, 2000);
+  });
+
+  document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('successModal').classList.remove('open');
+  });
+  document.getElementById('successModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  /* ---- STAT COUNTER ANIMATION ---- */
+  function animateCounters() {
+    document.querySelectorAll('.stat-num').forEach(el => {
+      const target = parseInt(el.textContent);
+      if (isNaN(target)) return;
+      let cur = 0;
+      const step = Math.ceil(target / 40);
+      con
